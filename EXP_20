@@ -1,0 +1,26 @@
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+from Crypto.Random import get_random_bytes
+
+def ecb_mode(plaintext, key):
+    cipher = AES.new(key, AES.MODE_ECB)
+    ct = cipher.encrypt(pad(plaintext, AES.block_size))
+    return ct
+
+def cbc_mode(plaintext, key, iv):
+    cipher = AES.new(key, AES.MODE_CBC, iv=iv)
+    ct = cipher.encrypt(pad(plaintext, AES.block_size))
+    return ct
+
+# ECB Mode Example
+key = get_random_bytes(16)
+plaintext_ecb = b'This is a sample plaintext for ECB mode.'
+ciphertext_ecb = ecb_mode(plaintext_ecb, key)
+
+# CBC Mode Example
+iv = get_random_bytes(16)
+plaintext_cbc = b'This is a sample plaintext for CBC mode.'
+ciphertext_cbc = cbc_mode(plaintext_cbc, key, iv)
+
+print("ECB Mode Ciphertext:", ciphertext_ecb)
+print("CBC Mode Ciphertext:", ciphertext_cbc)
