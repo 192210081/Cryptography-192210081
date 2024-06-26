@@ -1,0 +1,16 @@
+from Crypto.Util.number import long_to_bytes
+
+n = 589
+e = 17
+ciphertext = 345
+
+# Given information
+p = 19
+q = 31
+
+# Decrypting the ciphertext without the private key
+phi = (p - 1) * (q - 1)
+d = pow(e, -1, phi)
+plaintext = pow(ciphertext, d, n)
+
+print("Decrypted plaintext block:", long_to_bytes(plaintext))
