@@ -1,0 +1,20 @@
+from Crypto.PublicKey import DSA
+from Crypto.Signature import DSS
+from Crypto.Hash import SHA256
+
+# Generate a new DSA key
+key = DSA.generate(2048)
+
+# Create a new message
+message = b"Hello, World!"
+
+# Create a new DSS object with the key
+signer = DSS.new(key, 'fips-186-3')
+
+# Hash the message
+hash_obj = SHA256.new(message)
+
+# Sign the message
+signature = signer.sign(hash_obj)
+
+print("DSA Signature:", signature)
