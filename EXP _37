@@ -1,0 +1,26 @@
+def vigenere_one_time_pad(plaintext, key):
+    def shift(char, key):
+        return chr(((ord(char) - 65 + key) % 26) + 65)
+
+    key_index = 0
+    ciphertext = ""
+    for char in plaintext:
+        if char.isalpha():
+            key_val = key[key_index % len(key)]
+            key_index += 1
+            shift_val = key_val
+            if char.islower():
+                ciphertext += shift(char.upper(), shift_val).lower()
+            else:
+                ciphertext += shift(char, shift_val)
+        else:
+            ciphertext += char
+
+    return ciphertext
+
+# Example Usage
+plaintext = "HELLO"
+key = [3, 19, 5]  # Example key: 3 19 5
+ciphertext = vigenere_one_time_pad(plaintext, key)
+print("Plaintext:", plaintext)
+print("Ciphertext:", ciphertext)
