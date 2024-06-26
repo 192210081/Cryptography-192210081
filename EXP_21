@@ -1,0 +1,27 @@
+from Crypto.Cipher import AES
+from Crypto.Random import get_random_bytes
+
+def encrypt_ECB(key, data):
+    cipher = AES.new(key, AES.MODE_ECB)
+    return cipher.encrypt(data)
+
+def encrypt_CBC(key, data, iv):
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    return cipher.encrypt(data)
+
+def encrypt_CFB(key, data, iv):
+    cipher = AES.new(key, AES.MODE_CFB, iv)
+    return cipher.encrypt(data)
+
+# Example Usage
+key = get_random_bytes(16)
+data = b'This is a sample plaintext'
+iv = get_random_bytes(16)
+
+encrypted_ECB = encrypt_ECB(key, data)
+encrypted_CBC = encrypt_CBC(key, data, iv)
+encrypted_CFB = encrypt_CFB(key, data, iv)
+
+print("ECB Encrypted Data:", encrypted_ECB)
+print("CBC Encrypted Data:", encrypted_CBC)
+print("CFB Encrypted Data:", encrypted_CFB)
