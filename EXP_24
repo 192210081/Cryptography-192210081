@@ -1,0 +1,25 @@
+def extended_gcd(a, b):
+    if a == 0:
+        return b, 0, 1
+    else:
+        g, x, y = extended_gcd(b % a, a)
+        return g, y - (b // a) * x, x
+
+def modinv(a, m):
+    g, x, y = extended_gcd(a, m)
+    if g != 1:
+        raise Exception('Modular inverse does not exist')
+    else:
+        return x % m
+
+def find_private_key(e, n):
+    p = 59
+    q = 61
+    phi_n = (p - 1) * (q - 1)
+    d = modinv(e, phi_n)
+    return d
+
+e = 31
+n = 3599
+private_key = find_private_key(e, n)
+print("Private Key:", private_key)
