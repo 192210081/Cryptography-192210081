@@ -1,0 +1,23 @@
+# Code for Encrypt and Decrypt in Cipher Block Chaining Mode using S-DES
+
+from Crypto.Cipher import DES
+
+# Binary Initialization Vector
+iv = b'\xaa\xaa'
+
+# Binary Plaintext
+plaintext = b'\x01\x23'
+
+# Binary Key
+key = b'\x1f\x7d'
+
+# Encryption
+cipher = DES.new(key, DES.MODE_CBC, iv)
+ciphertext = cipher.encrypt(plaintext)
+
+# Decryption
+cipher = DES.new(key, DES.MODE_CBC, iv)
+decryptedtext = cipher.decrypt(ciphertext)
+
+print("Ciphertext:", ciphertext)
+print("Decryptedtext:", decryptedtext)
