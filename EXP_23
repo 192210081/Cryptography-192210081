@@ -1,0 +1,22 @@
+from CryptoPlus.Cipher import python_AES
+
+def encrypt(counter, plaintext, key):
+    cipher = python_AES.new(key, python_AES.MODE_CTR, counter=lambda: counter)
+    return cipher.encrypt(plaintext)
+
+def decrypt(counter, ciphertext, key):
+    cipher = python_AES.new(key, python_AES.MODE_CTR, counter=lambda: counter)
+    return cipher.decrypt(ciphertext)
+
+# Test data for S-DES using a counter starting at 0000 0000
+counter = b'\x00\x00\x00\x00'
+plaintext = b'\x01\x02\x04'
+key = b'\x1F\x3D'
+
+# Encrypting the plaintext
+encrypted_text = encrypt(counter, plaintext, key)
+print("Encrypted Text:", encrypted_text)
+
+# Decrypting the ciphertext
+decrypted_text = decrypt(counter, encrypted_text, key)
+print("Decrypted Text:", decrypted_text)
