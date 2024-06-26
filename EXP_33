@@ -1,0 +1,21 @@
+from Crypto.Cipher import DES
+from Crypto.Random import get_random_bytes
+
+def des_encrypt(key, data):
+    cipher = DES.new(key, DES.MODE_ECB)
+    return cipher.encrypt(data)
+
+def des_decrypt(key, data):
+    cipher = DES.new(key, DES.MODE_ECB)
+    return cipher.decrypt(data)
+
+# Main
+key = get_random_bytes(8)  # 8 bytes = 64 bits key
+data = b'SecretData123'     # Example plaintext data
+
+encrypted_data = des_encrypt(key, data)
+decrypted_data = des_decrypt(key, encrypted_data)
+
+print("Original Data:", data)
+print("Encrypted Data:", encrypted_data)
+print("Decrypted Data:", decrypted_data)
