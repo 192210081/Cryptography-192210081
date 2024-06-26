@@ -1,0 +1,28 @@
+def generate_subkey(block_size):
+    if block_size == 64:
+        constant = 0x1B
+    elif block_size == 128:
+        constant = 0x87
+    else:
+        raise ValueError("Unsupported block size")
+
+    L = block_cipher(0)
+    subkey1 = (L << 1) & (2**block_size - 1)  # Shift left and mask to block size
+    if (L >> (block_size - 1)) & 1:
+        subkey1 ^= constant
+
+    subkey2 = (subkey1 << 1) & (2**block_size - 1)
+    if (subkey1 >> (block_size - 1)) & 1:
+        subkey2 ^= constant
+
+    return subkey1, subkey2
+
+def block_cipher(block):
+    # Example block cipher operation
+    return block  # This should be replaced with the actual block cipher operation
+
+# Example usage:
+block_size = 128
+subkey1, subkey2 = generate_subkey(block_size)
+print(f"Subkey 1: {subkey1:0{block_size//4}x}")
+print(f"Subkey 2: {subkey2:0{block_size//4}x}")
