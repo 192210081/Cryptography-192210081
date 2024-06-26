@@ -1,0 +1,22 @@
+from Crypto.Cipher import DES3
+from Crypto.Random import get_random_bytes
+
+def encrypt_CBC_3DES(key, iv, plaintext):
+    cipher = DES3.new(key, DES3.MODE_CBC, iv)
+    ciphertext = cipher.encrypt(plaintext)
+    return ciphertext
+
+# Initialization Vector and Key (24 bytes for 3DES)
+iv = get_random_bytes(8)
+key = get_random_bytes(24)
+
+# Plaintext to be encrypted
+plaintext = b'Secret message to be encrypted'
+
+# Encrypt using 3DES in CBC mode
+ciphertext = encrypt_CBC_3DES(key, iv, plaintext)
+
+print("3DES CBC Encryption:")
+print("Key:", key)
+print("IV:", iv)
+print("Ciphertext:", ciphertext)
