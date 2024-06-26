@@ -1,0 +1,46 @@
+import numpy as np
+
+def egcd(a, b):
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, y, x = egcd(b % a, a)
+        return (g, x - (b // a) * y, y)
+
+def modinv(a, m):
+    g, x, y = egcd(a, m)
+    if g != 1:
+        raise Exception('Modular inverse does not exist')
+    else:
+        return x % m
+
+def matrix_mod_inv(matrix, modulus):
+    det = int(np.round(np.linalg.det(matrix)))
+    det_inv = modinv(det, modulus)
+    matrix_modulus_inv = (det_inv * np.round(det * np.linalg.inv(matrix)).astype(int)) % modulus
+    return matrix_modulus_inv
+
+def hill_cipher_known_plaintext_attack(ciphertext, plaintext, modulus, key_size):
+    n = key_size
+    ciphertext = [ord(char) - ord('A') for char in ciphertext]
+    plaintext = [ord(char) - ord('A') for char in plaintext]
+
+    ciphertext_matrix = np.array(ciphertext)
+    ciphertext_matrix = np.reshape(ciphertext_matrix, (-1, n))
+
+    plaintext_matrix = np.array(plaintext)
+    plaintext_matrix = np.reshape(plaintext_matrix, (-1, n))
+
+    key_matrix = np.dot(matrix_mod_inv(plaintext_matrix, modulus), ciphertext_matrix) % modulus
+
+    return key_matrix
+
+# Example Usage
+ciphertext = "HILL"
+plaintext = "TEST"
+modulus = 26
+key_size = 2
+
+key_matrix = hill_cipher_known_plaintext_attack(ciphertext, plaintext, modulus, key_size)
+print("Key Matrix:")
+print(key_matrix)
