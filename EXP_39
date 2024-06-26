@@ -1,0 +1,29 @@
+from collections import Counter
+import string
+
+def caesar_decrypt(ciphertext, shift):
+    alphabet = string.ascii_lowercase
+    shifted_alphabet = alphabet[shift:] + alphabet[:shift]
+    table = str.maketrans(shifted_alphabet, alphabet)
+    return ciphertext.translate(table)
+
+def letter_frequency_attack(ciphertext):
+    letter_count = Counter(ciphertext.lower())
+    most_common = letter_count.most_common()
+    most_common_letters = [item[0] for item in most_common if item[0].isalpha()]
+    possible_plaintexts = []
+    
+    for shift in range(26):
+        decrypted_text = caesar_decrypt(ciphertext, shift)
+        score = sum(decrypted_text.count(letter) for letter in most_common_letters[:3])
+        possible_plaintexts.append((decrypted_text, score))
+    
+    possible_plaintexts.sort(key=lambda x: x[1], reverse=True)
+    return possible_plaintexts
+
+ciphertext = "Khoor zruog l dp xqlyhuvlwb iduuhidfwlrq"
+possible_plaintexts = letter_frequency_attack(ciphertext)
+top_10_plaintexts = [plaintext[0] for plaintext in possible_plaintexts[:10]]
+
+for idx, plaintext in enumerate(top_10_plaintexts, start=1):
+    print(f"Possible Plaintext {idx}: {plaintext}")
