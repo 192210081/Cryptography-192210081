@@ -1,0 +1,16 @@
+from Crypto.PublicKey import RSA
+
+# Bob's original key pair
+original_key = RSA.generate(2048)
+
+# Bob's leaked private key
+leaked_private_key = original_key.export_key()
+
+# Generate a new public and private key pair for Bob
+new_key = RSA.generate(2048)
+
+# Check if the new private key is different from the leaked key
+new_private_key = new_key.export_key()
+is_safe = leaked_private_key != new_private_key
+
+print("Is it safe to generate new keys without changing the modulus?", is_safe)
