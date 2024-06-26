@@ -1,0 +1,32 @@
+from Crypto.Cipher import AES
+from Crypto.Random import get_random_bytes
+
+def encrypt_ECB(plaintext, key):
+    cipher = AES.new(key, AES.MODE_ECB)
+    return cipher.encrypt(plaintext)
+
+def encrypt_CBC(plaintext, key, iv):
+    cipher = AES.new(key, AES.MODE_CBC, iv=iv)
+    return cipher.encrypt(plaintext)
+
+def encrypt_CFB(plaintext, key, iv):
+    cipher = AES.new(key, AES.MODE_CFB, iv=iv)
+    return cipher.encrypt(plaintext)
+
+# Example Usage
+key = get_random_bytes(16)
+iv = get_random_bytes(16)
+plaintext = b'This is a sample plaintext for encryption'
+
+# ECB Encryption
+encrypted_ecb = encrypt_ECB(plaintext, key)
+
+# CBC Encryption
+encrypted_cbc = encrypt_CBC(plaintext, key, iv)
+
+# CFB Encryption
+encrypted_cfb = encrypt_CFB(plaintext, key, iv)
+
+print("ECB Encrypted Text:", encrypted_ecb)
+print("CBC Encrypted Text:", encrypted_cbc)
+print("CFB Encrypted Text:", encrypted_cfb)
