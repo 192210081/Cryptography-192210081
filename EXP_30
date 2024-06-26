@@ -1,0 +1,24 @@
+from Crypto.Cipher import AES
+from Crypto.Random import get_random_bytes
+
+def cbc_mac_two_blocks(key, message):
+    cipher = AES.new(key, AES.MODE_ECB)
+    iv = get_random_bytes(16)  # Initialization Vector
+    # Padding the message to be a multiple of 16 bytes (AES block size)
+    padded_message = message.ljust(16, b'\0')
+    
+    encrypted = cipher.encrypt(padded_message + iv)
+    mac_one_block = encrypted[-16:]  # MAC for the one-block message
+
+    # Creating a two-block message X || (X ⊕ T)
+    x_xor_t = bytes(a ^ b for a, b in zip(padded_message, mac_one_block))
+    two_block_message = padded_message + x_xor_t
+    encrypted_two_blocks = cipher.encrypt(two_block_message + iv)
+
+    return encrypted_two_blocks[-16:]  # Return the MAC for the two-block message
+
+# Example Usage
+key = get_random_bytes(16)
+message = b"Hello"
+mac_two_blocks = cbc_mac_two_blocks(key, message)
+print("CBC MAC for the two-block message:", mac_two_blocks.hex())
