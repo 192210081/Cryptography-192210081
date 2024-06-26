@@ -1,0 +1,27 @@
+import random
+
+def has_nonzero_bits(matrix):
+    for row in matrix:
+        if any(row):
+            return True
+    return False
+
+# Define the dimensions of the matrix
+capacity_rows = 5
+cols = 5
+
+# Initialize the internal state matrix with zeros
+internal_state = [[0 for _ in range(cols)] for _ in range(capacity_rows)]
+
+iterations = 0
+while not has_nonzero_bits(internal_state):
+    # Simulate the process of changing the internal state
+    for i in range(capacity_rows):
+        for j in range(cols):
+            internal_state[i][j] = random.randint(0, 1)
+
+    iterations += 1
+
+print(f"\nFinal Internal State after {iterations} iterations:")
+for row in internal_state:
+    print(row)
