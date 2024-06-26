@@ -1,0 +1,16 @@
+from Crypto.Util.number import bytes_to_long, long_to_bytes
+from Crypto.PublicKey import RSA
+
+# Generate RSA key pair
+key = RSA.generate(2048)
+
+# Message to encrypt
+message = "HELLO"
+
+# Convert message to integers
+numbers = [ord(char) - ord('A') for char in message]
+
+# Encrypt each number separately
+encrypted_numbers = [pow(num, key.e, key.n) for num in numbers]
+
+print("Encrypted Numbers:", encrypted_numbers)
